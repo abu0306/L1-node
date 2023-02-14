@@ -42,7 +42,8 @@ const NGINX_LOG_KEYS_MAP = {
   },
 };
 
-const LOG_FILE = "/usr/src/app/shared/nginx_log/node-access.log";
+// const LOG_FILE = "/usr/src/app/shared/nginx_log/node-access.log";
+const LOG_FILE = "/root/shared/nginx_log/node-access.log";
 
 /**
  * Check if a file is accessible with the given flags.
@@ -122,17 +123,19 @@ async function submitLogs(logs) {
   const cacheHitRate = cacheHits / logs.length;
   const cacheHitRatePercent = Math.round(cacheHitRate * 100);
 
-  debug(`Submitting ${logs.length} retrievals (${prettyBytes(bytesSent)} with cache rate of ${cacheHitRatePercent}%)`);
+  console.log(`Submitting ${logs.length} retrievals (${prettyBytes(bytesSent)} with cache rate of ${cacheHitRatePercent}%)`);
 
   const submitTime = Date.now();
 
-  await fetch(LOG_INGESTOR_URL, {
-    method: "POST",
-    body: JSON.stringify({ nodeId, filAddress: FIL_WALLET_ADDRESS, bandwidthLogs: logs }),
-    headers: { Authentication: nodeToken, "Content-Type": "application/json", "User-Agent": NODE_UA },
-  });
+  console.log(logs)
 
-  debug(`Retrievals submitted succesfully to wallet ${FIL_WALLET_ADDRESS} in ${Date.now() - submitTime}ms`);
+  // await fetch(LOG_INGESTOR_URL, {
+  //   method: "POST",
+  //   body: JSON.stringify({ nodeId, filAddress: FIL_WALLET_ADDRESS, bandwidthLogs: logs }),
+  //   headers: { Authentication: nodeToken, "Content-Type": "application/json", "User-Agent": NODE_UA },
+  // });
+
+  console.log(`Retrievals submitted succesfully to wallet ${FIL_WALLET_ADDRESS} in ${Date.now() - submitTime}ms`);
 }
 
 /**
